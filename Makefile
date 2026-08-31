@@ -1,6 +1,6 @@
 SRC_DIR = src
 OBJ_DIR = .obj
-EXEC = main.exe
+EXEC = game.exe
 
 SFML_DIR = D:/res/libraries/SFML-3.1.0
 INC_DIR = $(SFML_DIR)/include
@@ -9,11 +9,13 @@ LIB_DIR = $(SFML_DIR)/lib
 CXX = g++
 CXXFLAGS = -g -Wall -std=c++17 -I$(INC_DIR)
 
-# Налаштування лінкера
 LDFLAGS = -L$(LIB_DIR)
 LDLIBS = -lmingw32 -lsfml-main -lsfml-graphics -lsfml-window -lsfml-system -mwindows
 
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES = $(wildcard $(SRC_DIR)/*.cpp) \
+          $(wildcard $(SRC_DIR)/*/*.cpp) \
+          $(wildcard $(SRC_DIR)/*/*/*.cpp)
+
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
 
 run: $(EXEC)
@@ -25,11 +27,9 @@ check:
 $(EXEC): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $(EXEC) $(LDFLAGS) $(LDLIBS)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@if not exist "$(subst /,\,$(@D))" mkdir "$(subst /,\,$(@D))"
 	$(CXX) -c $(CXXFLAGS) $< -o $@
-
-$(OBJ_DIR):
-	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 
 clean:
 	@if exist $(EXEC) del $(EXEC)

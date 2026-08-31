@@ -1,7 +1,7 @@
 #include "Player.hpp"
 
-Player::Player(sf::Texture& texture)
-: sprite_(sf::Sprite(texture))
+Player::Player(const sf::Texture& texture)
+: sprite_(sf::Sprite(texture)), health_(100)
 {}
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const

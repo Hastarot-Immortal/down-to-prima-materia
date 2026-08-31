@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
+#include "Factories/TextureFactory.hpp"
 #include "UI/Menus/EquipmentMenu.hpp"
 #include "UI/Menus/StatusMenu.hpp"
 
@@ -10,10 +11,10 @@ int main()
     sf::Vector2u windowSize = {1024, 768};
     sf::RenderWindow window(sf::VideoMode(windowSize), "Down to Prima Materia");
 
-    sf::Texture texture("assets\\images\\player_proto.png");
+    TextureFactory textures("assets\\images");
     sf::Font font("assets\\fonts\\simple-pixel.otf");
 
-    Player player(texture);
+    Player player(textures.get("player_proto"));
     StatusMenu statusMenu(windowSize, font);
     EquipmentMenu equipmentMenu(windowSize);
 
@@ -51,7 +52,7 @@ int main()
                 }
             }
         }
-
+        statusMenu.updatePlayerHealth(player.getHealth());
         window.clear(sf::Color::White);
         window.draw(player);
         window.draw(equipmentMenu);

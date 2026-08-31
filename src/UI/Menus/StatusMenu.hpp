@@ -1,4 +1,5 @@
 #include "Menu.hpp"
+#include <cstdint>
 
 class StatusMenu : public Menu
 {
@@ -9,11 +10,12 @@ private:
     void drawMenu(sf::RenderTarget& target, sf::RenderStates states) const override;
 public:
     StatusMenu(sf::Vector2u& windowSize, sf::Font& font);
+    void updatePlayerHealth(std::uint8_t playerHealth);
 };
 
 StatusMenu::StatusMenu(sf::Vector2u& windowSize, sf::Font& font)
 : shape_({(float)windowSize.x, windowSize.y * .1f}), 
-  text_(sf::Text(font, "Player"))
+  text_(sf::Text(font, "Player: 100hp"))
 {
     is_visible_ = true;
     shape_.setOutlineColor(sf::Color(23, 27, 28));
@@ -28,4 +30,9 @@ void StatusMenu::drawMenu(sf::RenderTarget& target, sf::RenderStates states) con
     states.transform = getTransform();
     target.draw(shape_, states);
     target.draw(text_, states);
+}
+
+void StatusMenu::updatePlayerHealth(std::uint8_t playerHealth)
+{
+    text_.setString("Player: " + std::to_string(playerHealth) + "hp");
 }
