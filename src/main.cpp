@@ -1,8 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "Factories/TextureFactory.hpp"
-#include "UI/Menus/EquipmentMenu.hpp"
-#include "UI/Menus/StatusMenu.hpp"
 
 using KeyCode = sf::Keyboard::Scancode;
 
@@ -12,11 +10,8 @@ int main()
     sf::RenderWindow window(sf::VideoMode(windowSize), "Down to Prima Materia");
 
     TextureFactory textures("assets\\images");
-    sf::Font font("assets\\fonts\\simple-pixel.otf");
 
-    Player player(textures.get("player_proto"));
-    StatusMenu statusMenu(windowSize, font);
-    EquipmentMenu equipmentMenu(windowSize);
+    Player player(textures.get("player"));
 
     while (window.isOpen())
     {
@@ -43,20 +38,13 @@ int main()
                 case KeyCode::D:
                     player.move({20.f, 0.f});
                     break;
-                case KeyCode::Q:
-                    equipmentMenu.switchVisible();
-                    statusMenu.switchVisible();
-                    break;
                 default:
                     break;
                 }
             }
         }
-        statusMenu.updatePlayerHealth(player.getHealth());
         window.clear(sf::Color::White);
         window.draw(player);
-        window.draw(equipmentMenu);
-        window.draw(statusMenu);
         window.display();
     }
 }
