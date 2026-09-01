@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "Factories/TextureFactory.hpp"
+#include "UI/Label.hpp"
 
 using KeyCode = sf::Keyboard::Scancode;
 
@@ -10,8 +11,11 @@ int main()
     sf::RenderWindow window(sf::VideoMode(windowSize), "Down to Prima Materia");
 
     TextureFactory textures("assets\\images");
+    sf::Font font("assets\\fonts\\simple-pixel.otf");
 
     Player player(textures.get("player"));
+    player.setPosition({(float)windowSize.x / 2.f, (float)windowSize.y / 2.f});
+    Label healthLabel(font, std::to_string(player.getHealth()) + "hp", 50.f);
 
     while (window.isOpen())
     {
@@ -43,8 +47,11 @@ int main()
                 }
             }
         }
+
+
         window.clear(sf::Color::White);
         window.draw(player);
+        window.draw(healthLabel);
         window.display();
     }
 }
