@@ -6,6 +6,7 @@
 inline constexpr sf::Color BACKGROUND_COLOR = sf::Color(46, 52, 64, 150);
 inline constexpr sf::Color TEXT_COLOR = sf::Color::White;
 inline constexpr sf::Color OUTLINE_COLOR = sf::Color::Black;
+inline constexpr float MARGIN = 10.f;
 
 class Widget : public sf::Drawable, public sf::Transformable
 {

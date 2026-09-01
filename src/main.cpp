@@ -2,6 +2,7 @@
 #include "Player.hpp"
 #include "Factories/TextureFactory.hpp"
 #include "UI/Label.hpp"
+#include "UI/VContainer.hpp"
 
 using KeyCode = sf::Keyboard::Scancode;
 
@@ -15,7 +16,12 @@ int main()
 
     Player player(textures.get("player"));
     player.setPosition({(float)windowSize.x / 2.f, (float)windowSize.y / 2.f});
-    Label healthLabel(font, std::to_string(player.getHealth()) + "hp", 50.f);
+    
+    VContainer container({
+        std::make_shared<Label>(font, std::to_string(player.getHealth()) + "hp", 10.f),
+        std::make_shared<Label>(font, "Hello", 10.f)
+    }, {100.f, std::nullopt});
+    container.setPosition({100.f, 100.f});
 
     while (window.isOpen())
     {
@@ -51,7 +57,7 @@ int main()
 
         window.clear(sf::Color::White);
         window.draw(player);
-        window.draw(healthLabel);
+        window.draw(container);
         window.display();
     }
 }

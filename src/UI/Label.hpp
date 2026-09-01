@@ -15,8 +15,8 @@ private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override
     {
         states.transform *= getTransform();
-        target.draw(shape_);
-        target.draw(text_);
+        target.draw(shape_, states);
+        target.draw(text_, states);
     }
 
 public:
@@ -90,8 +90,8 @@ public:
 void fitTextInsidePadding(sf::Text& text, sf::FloatRect bounds, sf::Vector2f padding)
 {
     sf::Vector2f sizeWithoutPadding = {
-        bounds.size.x - padding.x * 2.f, 
-        bounds.size.y - padding.y * 2.f
+        std::max(0.f, bounds.size.x - padding.x * 2.f), 
+        std::max(0.f, bounds.size.y - padding.y * 2.f)
     };
     sf::FloatRect textBounds = text.getLocalBounds();
 
