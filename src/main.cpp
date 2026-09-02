@@ -15,13 +15,13 @@ int main()
     sf::Font font("assets\\fonts\\simple-pixel.otf");
 
     Player player(textures.get("player"));
-    player.setPosition({(float)windowSize.x / 2.f, (float)windowSize.y / 2.f});
     
     VContainer container({
-        std::make_shared<Label>(font, std::to_string(player.getHealth()) + "hp", 10.f),
-        std::make_shared<Label>(font, "Hello", 10.f)
+        std::make_shared<Label>(font, std::to_string(player.getHealth()) + "hp"),
+        std::make_shared<Label>(font, "Hello")
     }, {100.f, std::nullopt});
-    container.setPosition({100.f, 100.f});
+    container.setOrigin({container.getSize().x / 2, container.getSize().y / 2});
+    container.setPosition({windowSize.x / 2.f, windowSize.y / 2.f});
 
     while (window.isOpen())
     {
@@ -53,7 +53,6 @@ int main()
                 }
             }
         }
-
 
         window.clear(sf::Color::White);
         window.draw(player);

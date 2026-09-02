@@ -38,7 +38,7 @@ public:
     Label(const sf::Font&& font, sf::String text, sf::Vector2f padding) = delete;
 
     Label(const sf::Font& font, sf::String text)
-    : Label(font, text, {0.f, 0.f}) {}
+    : Label(font, text, {PADDING, PADDING}) {}
 
     Label(const sf::Font& font, sf::String text, float padding)
     : Label(font, text, {padding, padding}) {}
@@ -73,12 +73,8 @@ public:
     const float getOutlineThickness() const { return shape_.getOutlineThickness(); }
     void getOutlineThickness(float thickness) { shape_.setOutlineThickness(thickness); }
 
-    sf::FloatRect getBounds() const override { return shape_.getLocalBounds(); }
-
-    const sf::Vector2f getSize() const override
-    {
-        return shape_.getSize();
-    }
+    const sf::FloatRect getBounds() const override { return shape_.getLocalBounds(); }
+    const sf::Vector2f getSize() const override { return shape_.getSize(); }
     
     void setSize(sf::Vector2f size) override
     {
