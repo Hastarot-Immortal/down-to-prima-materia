@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
+#include <algorithm>
 
 class Player : public sf::Drawable, public sf::Transformable
 {
@@ -12,5 +13,10 @@ public:
     Player(const sf::Texture& texture);
     ~Player() {};
 
-    std::uint8_t getHealth() { return health_; }
+    const std::uint8_t getHealth() const { return health_; }
+    
+    void setHealth(int health) 
+    { 
+        health_ = std::clamp(health, 0, 100); 
+    }
 };

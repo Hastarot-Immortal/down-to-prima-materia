@@ -16,6 +16,11 @@ public:
     virtual const sf::FloatRect getBounds() const = 0;
     virtual const sf::Vector2f getSize() const = 0;
     virtual void setSize(sf::Vector2f size) = 0;
+
+    bool isIntersected(sf::Vector2i mousePosition)
+    {
+        return getBounds().contains({(float)mousePosition.x, (float)mousePosition.y});
+    }
 };
 
 class MouseEvent
@@ -39,12 +44,7 @@ public:
     virtual void onHoverStateChanged() {} 
     virtual void onPressed() = 0;
 
-    bool isIntersected(sf::Vector2i mousePosition)
-    {
-        return getBounds().contains({(float)mousePosition.x, (float)mousePosition.y});
-    }
-
-    void handle(MouseEvent event)
+    virtual void handle(MouseEvent& event)
     {
         if (isIntersected(event.position_))
         {

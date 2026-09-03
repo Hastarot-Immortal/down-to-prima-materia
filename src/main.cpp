@@ -15,16 +15,16 @@ int main()
 
     Player player(textures.get("player"));
 
-    TextButton button(
-        [&window](){ window.close(); },
-        font,
-        "Exit"
-    );
-    button.move({50.f, 50.f});
-
     VContainer container({
         std::make_shared<Label>(font, std::to_string(player.getHealth()) + "hp"),
-        std::make_shared<Label>(font, "Hello")
+        std::make_shared<Label>(font, "Hello"),
+        std::make_shared<TextButton>([&window](){ window.close(); }, font, "Exit"),
+        std::make_shared<TextButton>([&player](){ 
+            player.setHealth(player.getHealth() - 5); 
+        }, font, "Down HP"),
+        std::make_shared<TextButton>([&player](){ 
+            player.setHealth(player.getHealth() + 5); 
+        }, font, "Up HP")
     }, {100.f, std::nullopt});
     container.setOrigin({container.getSize().x / 2, container.getSize().y / 2});
     container.setPosition({windowSize.x / 2.f, windowSize.y / 2.f});
@@ -63,19 +63,21 @@ int main()
             {
                 if (const auto* mouse = event->getIf<sf::Event::MouseMoved>())
                 {
-                    button.handle(MouseEvent(mouse));
+                    auto e = MouseEvent(mouse);
+                    container.handle(e);
                 } 
                 else if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>())
                 {
-                    button.handle(MouseEvent(mouse));
+                    auto e = MouseEvent(mouse);
+                    container.handle(e);
                 }
             }
         }
-
+        if (auto label = dynamic_cast<Label*>(container.get(0)))
+            label->setText(std::to_string(player.getHealth()) + "hp");
         window.clear(sf::Color::White);
         window.draw(player);
         window.draw(container);
-        window.draw(button);
         window.display();
     }
 }

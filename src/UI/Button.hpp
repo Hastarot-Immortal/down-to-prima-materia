@@ -15,7 +15,7 @@ private:
     sf::Color hoverColor_ = HOVER_COLOR;
 public:
     TextButton(std::function<void()> f, const sf::Font& font, sf::String text, sf::Vector2f padding)
-    : f_(f), TextWidget(font, text, padding) {}
+    : TextWidget(font, text, padding), f_(f) {}
     
     TextButton(std::function<void()> f, const sf::Font&& font, sf::String text, sf::Vector2f padding) = delete;
 
