@@ -1,8 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
 #include "Factories/TextureFactory.hpp"
-#include "UI/Label.hpp"
-#include "UI/VContainer.hpp"
+#include "UI.hpp"
 
 using KeyCode = sf::Keyboard::Scancode;
 
@@ -15,7 +14,14 @@ int main()
     sf::Font font("assets\\fonts\\simple-pixel.otf");
 
     Player player(textures.get("player"));
-    
+
+    TextButton button(
+        [&window](){ window.close(); },
+        font,
+        "Exit"
+    );
+    button.move({50.f, 50.f});
+
     VContainer container({
         std::make_shared<Label>(font, std::to_string(player.getHealth()) + "hp"),
         std::make_shared<Label>(font, "Hello")
@@ -52,11 +58,24 @@ int main()
                     break;
                 }
             }
+            else if (event->is<sf::Event::MouseMoved>()
+            || event->is<sf::Event::MouseButtonPressed>())
+            {
+                if (const auto* mouse = event->getIf<sf::Event::MouseMoved>())
+                {
+                    button.handle(MouseEvent(mouse));
+                } 
+                else if (const auto* mouse = event->getIf<sf::Event::MouseButtonPressed>())
+                {
+                    button.handle(MouseEvent(mouse));
+                }
+            }
         }
 
         window.clear(sf::Color::White);
         window.draw(player);
         window.draw(container);
+        window.draw(button);
         window.display();
     }
 }
