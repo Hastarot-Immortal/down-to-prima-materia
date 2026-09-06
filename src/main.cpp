@@ -25,13 +25,18 @@ int main()
     status.setPosition({10.f, 10.f});
 
     VContainer container({
-        std::make_shared<TextButton>([&window](){ window.close(); }, font, "Exit"),
-        std::make_shared<TextButton>([&player](){ 
+        std::make_shared<TextButton>([&player]()
+        { 
             player.setHealth(player.getHealth() - 5); 
         }, font, "Down HP"),
-        std::make_shared<TextButton>([&player](){ 
+        std::make_shared<TextButton>([&player]()
+        { 
             player.setHealth(player.getHealth() + 5); 
-        }, font, "Up HP")
+        }, font, "Up HP"),
+        std::make_shared<ImageButton>([&window]()
+        { 
+            window.close(); 
+        }, textures.get("no"))
     }, {100.f, std::nullopt});
     container.setOrigin({container.getSize().x / 2, container.getSize().y / 2});
     container.setPosition({windowSize.x / 2.f, windowSize.y / 2.f});

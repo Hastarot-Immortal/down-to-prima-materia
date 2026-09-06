@@ -47,7 +47,8 @@ public:
 
     TextWidget(const sf::Font&& font, sf::String text, sf::Vector2f padding) = delete;
 
-        const sf::String& getText() const { return text_.getString(); }
+    const sf::String& getText() const { return text_.getString(); }
+    
     void setText(const sf::String& text) { text_.setString(text); }
 
     const unsigned int getCharacterSize() const { return text_.getCharacterSize(); }
@@ -63,9 +64,11 @@ public:
     }
 
     const std::uint32_t getStyle() const { return text_.getStyle(); }
+    
     void setStyle(std::uint32_t style) { text_.setStyle(style); }
 
     const sf::Color getTextColor() const { return text_.getFillColor(); }
+    
     void setTextColor(sf::Color color) { text_.setFillColor(color); }
 
     void setSize(sf::Vector2f size) override
