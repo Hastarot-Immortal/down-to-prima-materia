@@ -15,12 +15,16 @@ int main()
 
     Player player(textures.get("player"));
 
-    VContainer container({
+    HContainer status({
         std::make_shared<DynamicLabel>(
             [&player](){ return std::to_string(player.getHealth()) + "hp"; },
             font, std::to_string(player.getHealth()) + "hp"
         ),
         std::make_shared<Label>(font, "Hello"),
+    }, {120.f, 60.f});
+    status.setPosition({10.f, 10.f});
+
+    VContainer container({
         std::make_shared<TextButton>([&window](){ window.close(); }, font, "Exit"),
         std::make_shared<TextButton>([&player](){ 
             player.setHealth(player.getHealth() - 5); 
@@ -76,9 +80,10 @@ int main()
                 }
             }
         }
-        container.update();
+        status.update();
         window.clear(sf::Color::White);
         window.draw(player);
+        window.draw(status);
         window.draw(container);
         window.display();
     }
