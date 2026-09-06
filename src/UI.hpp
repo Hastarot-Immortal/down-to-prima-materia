@@ -3,3 +3,4 @@
 #include "UI/Label.hpp"
 #include "UI/Button.hpp"
 #include "UI/VContainer.hpp"
+#include "UI/DynamicLabel.hpp"

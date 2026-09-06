@@ -56,3 +56,9 @@ public:
         onHoverStateChanged();
     }
 };
+
+class DynamicWidget : virtual public Widget
+{
+public:
+    virtual void update() = 0;
+};

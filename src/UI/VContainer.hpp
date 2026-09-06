@@ -9,7 +9,7 @@
 using Widgets = std::vector<std::shared_ptr<Widget>>;
 using OptVector2f = sf::Vector2<std::optional<float>>;
 
-class VContainer : public InteractableWidget
+class VContainer : public InteractableWidget, public DynamicWidget
 {
 private:
     float padding_;
@@ -135,5 +135,12 @@ public:
         }
 
         if (currentHovered != nullptr) currentHovered->handle(localEvent);
+    }
+
+    void update() override
+    {
+        for (auto widget : subwidgets_)
+            if (auto dynamicWidget = dynamic_cast<DynamicWidget*>(widget.get()))
+                dynamicWidget->update();
     }
 };
