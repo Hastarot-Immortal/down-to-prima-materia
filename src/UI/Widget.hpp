@@ -1,4 +1,5 @@
 #pragma once
+#include "../Utility/BoolSet.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Transformable.hpp>
@@ -10,12 +11,23 @@ inline constexpr sf::Color OUTLINE_COLOR = sf::Color::Black;
 inline constexpr float PADDING = 10.f;
 inline constexpr float OUTLINE_THICKNESS = 2.f;
 
+inline constexpr int VISIBILITY = 0;
+inline constexpr int HOVER = 1;
+
 class Widget : public sf::Drawable, public sf::Transformable
 {
+protected:
+    BoolSet states_ = 1;
 public:
     virtual const sf::FloatRect getBounds() const = 0;
     virtual const sf::Vector2f getSize() const = 0;
     virtual void setSize(sf::Vector2f size) = 0;
+
+    bool isVisible() const { return states_[VISIBILITY]; }
+
+    void setVisibility(bool visibility) { visibility ? states_.setTrue(VISIBILITY) : states_.setFalse(VISIBILITY); }
+
+    void switchVisibility() { states_.flip(VISIBILITY); }
 
     bool isIntersected(sf::Vector2i mousePosition)
     {
@@ -38,21 +50,23 @@ public:
 
 class InteractableWidget : virtual public Widget
 {
-protected:
-    bool isHovered_ = false;
 public:
-    virtual void onHoverStateChanged() {} 
+    virtual void onHoverStateChanged() {}
+
     virtual void onPressed() = 0;
+
+    bool isHovered() const { return states_[HOVER]; }
 
     virtual void handle(MouseEvent& event)
     {
-        if (isIntersected(event.position_))
+        if (isVisible() && isIntersected(event.position_))
         {
-            isHovered_ = true;
-            if (event.button_.has_value() && event.button_ == sf::Mouse::Button::Left) onPressed();
-        } else {
-            isHovered_ = false;
-        }
+            states_.setTrue(HOVER);
+            if (event.button_.has_value() && event.button_ == sf::Mouse::Button::Left) 
+                onPressed();
+        } 
+        else 
+            states_.setFalse(HOVER);
         onHoverStateChanged();
     }
 };

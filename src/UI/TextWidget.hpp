@@ -28,6 +28,7 @@ protected:
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override
     {
+        if (!isVisible()) return;
         states.transform *= getTransform();
         target.draw(shape_, states);
         target.draw(text_, states);

@@ -19,6 +19,7 @@ protected:
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override
     {
+        if (!isVisible()) return;
         states.transform *= getTransform();
         for (const auto& widget : widgets_)
             target.draw(*widget, states);
@@ -60,6 +61,7 @@ public:
 
     void update() override
     {
+        if (!isVisible()) return;
         for (auto widget : widgets_)
             if (auto dynamicWidget = dynamic_cast<DynamicWidget*>(widget.get()))
                 dynamicWidget->update();

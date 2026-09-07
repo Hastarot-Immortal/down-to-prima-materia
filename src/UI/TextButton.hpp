@@ -28,7 +28,7 @@ public:
 
     void onHoverStateChanged() override
     {
-        if (isHovered_) 
+        if (isHovered())
             setBackgroundColor(hoverColor_);            
         else 
             setBackgroundColor(defaultColor_);

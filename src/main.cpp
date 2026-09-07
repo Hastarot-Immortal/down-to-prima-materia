@@ -17,29 +17,37 @@ int main()
 
     HContainer status({
         std::make_shared<DynamicLabel>(
-            [&player](){ return std::to_string(player.getHealth()) + "hp"; },
-            font, std::to_string(player.getHealth()) + "hp"
+            [&player]()
+            {
+                return std::to_string(player.getHealth()) + "hp";
+            },
+            font
         ),
         std::make_shared<Label>(font, "Hello"),
-    }, {120.f, 60.f});
+    }, {std::nullopt, 40.f});
     status.setPosition({10.f, 10.f});
 
     VContainer container({
         std::make_shared<TextButton>([&player]()
         { 
             player.setHealth(player.getHealth() - 5); 
-        }, font, "Down HP"),
+        }, 
+        font, "Down HP"),
         std::make_shared<TextButton>([&player]()
         { 
             player.setHealth(player.getHealth() + 5); 
-        }, font, "Up HP"),
+        }, 
+        font, "Up HP"),
         std::make_shared<ImageButton>([&window]()
         { 
             window.close(); 
-        }, textures.get("no"))
-    }, {100.f, std::nullopt});
+        }, 
+        textures.get("no"))
+    }, 
+    {100.f, std::nullopt});
     container.setOrigin({container.getSize().x / 2, container.getSize().y / 2});
     container.setPosition({windowSize.x / 2.f, windowSize.y / 2.f});
+    container.setVisibility(false);
 
     while (window.isOpen())
     {
@@ -65,6 +73,9 @@ int main()
                     break;
                 case KeyCode::D:
                     player.move({20.f, 0.f});
+                    break;
+                case KeyCode::Q:
+                    container.switchVisibility();
                     break;
                 default:
                     break;
